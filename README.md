@@ -115,3 +115,7 @@ new built-in agent ships in CLIHub.
 
 No other files. CLIHub also enforces its own archive limits (10 MB / 100 files) and rejects zip-slip
 paths, symlinks, and absolute paths.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
