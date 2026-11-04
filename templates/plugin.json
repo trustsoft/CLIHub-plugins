@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "my-agent",
+  "name": "My Agent",
+  "description": "Short description of the agent CLI.",
+  "version": "1.0.0",
+  "publisher": "Your name or organization",
+  "homepage": "https://example.com/my-agent",
+  "minAppVersion": "0.0.0",
+  "releaseNotesUrl": "https://example.com/my-agent/releases/1.0.0",
+  "commands": {
+    "launch": { "executable": "my-agent" },
+    "resume": { "executable": "my-agent", "arguments": "--continue" },
+    "version": { "executable": "my-agent", "arguments": "--version" },
+    "update": { "executable": "my-agent", "arguments": "upgrade" }
+  },
+  "detection": {
+    "systemPaths": ["%USERPROFILE%\\.my-agent"],
+    "projectIndicators": [".my-agent"]
+  },
+  "updateCheck": {
+    "source": "npm",
+    "package": "my-agent"
+  }
+}
