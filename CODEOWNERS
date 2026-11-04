@@ -1,0 +1,5 @@
+# Protect the feed machinery from unreviewed changes.
+/scripts/ @trustsoft
+/.github/ @trustsoft
+/reserved-ids.json @trustsoft
+/index.json @trustsoft

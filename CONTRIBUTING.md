@@ -33,10 +33,13 @@
 
 ```powershell
 pwsh scripts/package-plugin.ps1 <id>
+node scripts/validate-plugin.mjs <id>
 node scripts/build-index.mjs --check
 ```
 
-The CI repeats these checks, publishes the release, and updates `index.json`.
+CI runs the same checks on every pull request (`Validate plugin feed`). Suspicious-command and
+placeholder-metadata findings are warnings; review them before merging. Publishing runs after merge
+to `main`.
 
 ## Pull request checklist
 

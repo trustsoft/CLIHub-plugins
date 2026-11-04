@@ -1,61 +1,26 @@
 #!/usr/bin/env node
 
-import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+
+import {
+  compareVersions,
+  contentHashFor,
+  parseVersion,
+  readReservedIds,
+  sha256,
+  validateDescriptor
+} from './lib/plugin-validation.mjs';
 
 const root = process.cwd();
 const pluginsDir = join(root, 'plugins');
 const distDir = join(root, 'dist');
 const indexPath = join(root, 'index.json');
-const reservedPath = join(root, 'reserved-ids.json');
 const checkOnly = process.argv.includes('--check');
 const errors = [];
 
 function error(message) {
   errors.push(message);
-}
-
-function sha256(data) {
-  return createHash('sha256').update(data).digest('hex');
-}
-
-function stableStringify(value) {
-  if (Array.isArray(value)) {
-    return `[${value.map(stableStringify).join(',')}]`;
-  }
-
-  if (value && typeof value === 'object') {
-    return `{${Object.keys(value)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
-      .join(',')}}`;
-  }
-
-  return JSON.stringify(value);
-}
-
-function parseVersion(version) {
-  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(version);
-  return match ? [Number(match[1]), Number(match[2]), Number(match[3])] : null;
-}
-
-function compareVersions(left, right) {
-  for (let index = 0; index < 3; index += 1) {
-    if (left[index] !== right[index]) {
-      return left[index] - right[index];
-    }
-  }
-
-  return 0;
-}
-
-function isHttpsUrl(value) {
-  try {
-    return new URL(value).protocol === 'https:';
-  } catch {
-    return false;
-  }
 }
 
 function readJson(path, label) {
@@ -67,10 +32,12 @@ function readJson(path, label) {
   }
 }
 
-const reserved = readJson(reservedPath, 'reserved-ids.json');
-const reservedIds = new Set(Array.isArray(reserved) ? reserved : []);
-if (!Array.isArray(reserved)) {
-  error('reserved-ids.json must be a JSON array of plugin ids');
+let reservedIds;
+try {
+  reservedIds = readReservedIds(root);
+} catch (exception) {
+  error(exception.message);
+  reservedIds = new Set();
 }
 
 const existingIndex = existsSync(indexPath)
@@ -106,49 +73,24 @@ if (!existsSync(pluginsDir)) {
       continue;
     }
 
-    if (descriptor.id !== id) {
-      error(`plugins/${id}: plugin.json id '${descriptor.id}' must match the folder name '${id}'`);
+    const validation = validateDescriptor(id, descriptor, { reservedIds });
+    for (const message of validation.errors) {
+      error(message);
     }
-    if (!/^[a-z0-9][a-z0-9._-]*$/.test(id)) {
-      error(`plugins/${id}: invalid id (lowercase letters, digits, dot, underscore, hyphen)`);
+    for (const message of validation.warnings) {
+      console.warn(`WARNING: ${message}`);
     }
-    if (!descriptor.name) {
-      error(`plugins/${id}: missing name`);
-    }
-    if (!descriptor.version || !parseVersion(String(descriptor.version))) {
-      error(`plugins/${id}: version is required and must be major.minor.patch`);
-    }
-    if (!descriptor.publisher) {
-      error(`plugins/${id}: missing publisher`);
-    }
-    if (!descriptor.homepage || !isHttpsUrl(descriptor.homepage)) {
-      error(`plugins/${id}: homepage is required and must be an HTTPS URL`);
-    }
-    if (descriptor.releaseNotesUrl && !isHttpsUrl(descriptor.releaseNotesUrl)) {
-      error(`plugins/${id}: releaseNotesUrl must be an HTTPS URL`);
-    }
-    if (!descriptor.commands?.launch?.executable) {
-      error(`plugins/${id}: missing commands.launch`);
-    }
-    if (reservedIds.has(id)) {
-      error(`plugins/${id}: id is reserved for a CLIHub built-in plugin`);
-    }
-    if (descriptor.schemaVersion != null && descriptor.schemaVersion !== 1) {
-      error(`plugins/${id}: unsupported schemaVersion ${descriptor.schemaVersion}`);
+    if (validation.errors.length > 0) {
+      continue;
     }
 
     const minAppVersion = descriptor.minAppVersion ?? '0.0.0';
-    if (!parseVersion(String(minAppVersion))) {
-      error(`plugins/${id}: minAppVersion must be major.minor.patch`);
-    }
 
     const prior = existingById.get(id);
     const version = String(descriptor.version ?? '');
     const currentVersion = parseVersion(version);
 
-    const descriptorHash = sha256(stableStringify(descriptor));
-    const logoHash = existsSync(logoPath) ? sha256(readFileSync(logoPath)) : '';
-    const contentHash = sha256(Buffer.from(`${descriptorHash}\n${logoHash}`, 'utf8'));
+    const contentHash = contentHashFor(descriptor, logoPath);
 
     if (prior) {
       const priorVersion = parseVersion(String(prior.version ?? ''));
