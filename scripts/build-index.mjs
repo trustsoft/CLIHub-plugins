@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import {
+  MAX_DESCRIPTOR_BYTES,
   compareVersions,
   contentHashFor,
   parseVersion,
@@ -65,6 +66,14 @@ if (!existsSync(pluginsDir)) {
 
     if (!existsSync(descriptorPath)) {
       error(`plugins/${id}: missing plugin.json`);
+      continue;
+    }
+
+    const descriptorSize = statSync(descriptorPath).size;
+    if (descriptorSize > MAX_DESCRIPTOR_BYTES) {
+      error(
+        `plugins/${id}: plugin.json is ${descriptorSize} bytes; the maximum is ${MAX_DESCRIPTOR_BYTES}`
+      );
       continue;
     }
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 import {
+  MAX_DESCRIPTOR_BYTES,
   readReservedIds,
   validateDescriptor,
   validateLogo,
@@ -57,6 +58,14 @@ for (const id of targetIds) {
   if (!existsSync(descriptorPath)) {
     reportError(`plugins/${id}/plugin.json`, 'missing plugin.json');
     continue;
+  }
+
+  const descriptorSize = statSync(descriptorPath).size;
+  if (descriptorSize > MAX_DESCRIPTOR_BYTES) {
+    reportError(
+      `plugins/${id}/plugin.json`,
+      `plugin.json is ${descriptorSize} bytes; the maximum is ${MAX_DESCRIPTOR_BYTES}`
+    );
   }
 
   let descriptor;
