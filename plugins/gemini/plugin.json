@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "gemini",
+  "name": "Gemini",
+  "description": "Google Gemini CLI (Gemini Code Assist or API key)",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://geminicli.com/docs/",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "gemini" },
+    "resume": { "executable": "gemini", "arguments": "--resume" },
+    "version": { "executable": "gemini", "arguments": "--version" }
+  },
+  "updateCheck": {
+    "source": "npm",
+    "package": "@google/gemini-cli"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.gemini"
+    ],
+    "projectIndicators": [
+      ".gemini",
+      "GEMINI.md"
+    ]
+  }
+}

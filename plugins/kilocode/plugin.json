@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "kilocode",
+  "name": "Kilo Code",
+  "description": "Kilo Code CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://kilo.ai/docs/code-with-ai/platforms/cli",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "kilocode" },
+    "resume": { "executable": "kilocode", "arguments": "--continue" },
+    "version": { "executable": "kilocode", "arguments": "--version" },
+    "update": { "executable": "kilocode", "arguments": "upgrade" }
+  },
+  "updateCheck": {
+    "source": "npm",
+    "package": "@kilocode/cli"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.config\\kilo",
+      "%USERPROFILE%\\.local\\share\\kilo"
+    ],
+    "projectIndicators": [
+      "kilo.json",
+      "kilo.jsonc",
+      ".kilo"
+    ]
+  }
+}
