@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "mistral-vibe",
+  "name": "Mistral Vibe",
+  "description": "Mistral AI coding agent CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://github.com/mistralai/mistral-vibe",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "vibe" },
+    "resume": { "executable": "vibe", "arguments": "--continue" },
+    "version": { "executable": "vibe", "arguments": "--version" },
+    "update": { "executable": "vibe", "arguments": "update" }
+  },
+  "updateCheck": {
+    "source": "githubReleases",
+    "repo": "mistralai/mistral-vibe"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.vibe",
+      "%USERPROFILE%\\.local\\bin\\vibe.exe"
+    ],
+    "projectIndicators": [
+      ".vibe"
+    ]
+  }
+}

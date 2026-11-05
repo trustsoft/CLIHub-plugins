@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "kiro-cli",
+  "name": "Kiro CLI",
+  "description": "AWS Kiro CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://kiro.dev/docs/cli/",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "kiro-cli", "arguments": "chat" },
+    "resume": { "executable": "kiro-cli", "arguments": "chat --resume" },
+    "version": { "executable": "kiro-cli", "arguments": "--version" },
+    "update": { "executable": "kiro-cli", "arguments": "update" }
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.kiro",
+      "%LOCALAPPDATA%\\Kiro-Cli",
+      "%ProgramFiles%\\Kiro-Cli"
+    ],
+    "projectIndicators": [
+      ".kiro"
+    ]
+  }
+}
