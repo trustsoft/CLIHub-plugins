@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "antigravity",
+  "name": "Antigravity",
+  "description": "Google Antigravity CLI (agy)",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://antigravity.google/docs/cli/overview",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "agy" },
+    "resume": { "executable": "agy", "arguments": "--continue" },
+    "version": { "executable": "agy", "arguments": "--version" }
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.gemini\\antigravity-cli"
+    ]
+  }
+}
