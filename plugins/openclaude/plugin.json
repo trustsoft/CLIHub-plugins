@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "openclaude",
+  "name": "OpenClaude",
+  "description": "OpenClaude CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://www.npmjs.com/package/@twigpine/openclaude",
+  "minAppVersion": "1.1.1",
+  "commands": {
+    "launch": { "executable": "openclaude" },
+    "resume": { "executable": "openclaude", "arguments": "--continue" },
+    "version": { "executable": "openclaude", "arguments": "--version" },
+    "update": { "executable": "openclaude", "arguments": "update" }
+  },
+  "updateCheck": {
+    "source": "npm",
+    "package": "@twigpine/openclaude"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.openclaude"
+    ],
+    "projectIndicators": [
+      ".claude",
+      "CLAUDE.md"
+    ]
+  }
+}
