@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "github-copilot",
+  "name": "GitHub Copilot",
+  "description": "GitHub Copilot CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://github.com/github/copilot-cli",
+  "minAppVersion": "1.1.1",
+  "commands": {
+    "launch": { "executable": "copilot" },
+    "resume": { "executable": "copilot", "arguments": "--continue" },
+    "version": { "executable": "copilot", "arguments": "--version" },
+    "update": { "executable": "copilot", "arguments": "update" }
+  },
+  "updateCheck": {
+    "source": "githubReleases",
+    "repo": "github/copilot-cli"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.copilot",
+      "%LOCALAPPDATA%\\GitHubCopilotCLI"
+    ],
+    "projectIndicators": [
+      ".github/copilot-instructions.md"
+    ]
+  }
+}
