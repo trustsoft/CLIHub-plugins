@@ -1,5 +1,21 @@
 {
   "schemaVersion": 1,
-  "lastUpdated": "2026-11-05T00:00:00Z",
-  "plugins": []
+  "lastUpdated": "2026-11-05T00:15:00Z",
+  "plugins": [
+    {
+      "id": "cline-cli",
+      "name": "Cline CLI",
+      "description": "Cline AI coding assistant CLI",
+      "version": "1.0.0",
+      "schemaVersion": 1,
+      "minAppVersion": "1.1.0",
+      "publisher": "CLIHub",
+      "homepage": "https://www.npmjs.com/package/cline",
+      "packageUrl": "https://github.com/trustsoft/CLIHub-plugins/releases/download/cline-cli-1.0.0/cline-cli-1.0.0.clihub-plugin.zip",
+      "sha256": "b83727907202007fa90daddbda1fd9c535fc2220c1586db6e4ea656da3f712b8",
+      "releaseNotesUrl": null,
+      "signature": null,
+      "contentHash": "5908251f4849c637bf8c8ae7f0e2171672bccfda2b72c7d758ecbf8efddf2ffa"
+    }
+  ]
 }
