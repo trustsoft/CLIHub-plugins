@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "cline-cli",
+  "name": "Cline CLI",
+  "description": "Cline AI coding assistant CLI",
+  "version": "1.0.0",
+  "publisher": "CLIHub",
+  "homepage": "https://www.npmjs.com/package/cline",
+  "minAppVersion": "1.1.0",
+  "commands": {
+    "launch": { "executable": "cline" },
+    "version": { "executable": "cline", "arguments": "--version" },
+    "update": { "executable": "cline", "arguments": "update" }
+  },
+  "updateCheck": {
+    "source": "npm",
+    "package": "cline"
+  },
+  "detection": {
+    "systemPaths": [
+      "%USERPROFILE%\\.cline",
+      "%LOCALAPPDATA%\\cline"
+    ],
+    "projectIndicators": [
+      ".clinerules"
+    ]
+  }
+}
